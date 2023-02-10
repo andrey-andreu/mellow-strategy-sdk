@@ -2,6 +2,7 @@ import pandas as pd
 import polars as pl
 import datetime
 import typing as tp
+import numpy as np
 
 
 class PortfolioHistory:
