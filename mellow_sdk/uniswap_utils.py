@@ -214,7 +214,7 @@ class UniswapLiquidityAligner:
         if sqrt_price >= sqrt_upper:
             return x < 1e-6, liq_x, liq_y
 
-        return abs(liq_x - liq_y) < 1e-5, liq_x, liq_y
+        return abs(liq_x - liq_y) < 1e-3, liq_x, liq_y
 
     def get_amounts_for_swap_to_optimal(
         self, x: float, y: float, price: float, swap_fee: float
