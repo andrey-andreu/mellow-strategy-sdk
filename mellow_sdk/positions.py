@@ -486,19 +486,16 @@ class UniV3Position(AbstractPosition):
         assert price_0 > 1e-16, f"Incorrect Price = {price_0}"
         assert price_1 > 1e-16, f"Incorrect Price = {price_1}"
 
-        x_0, y_0 = self.to_xy(price_0)
-        x_1, y_1 = self.to_xy(price_1)
-
         fee_x, fee_y = 0, 0
-        if y_0 >= y_1:
-            fee_x = (x_1 - x_0) * self.fee_percent
+        if price_1 < price_0:
+            fee_x = (self.fee_percent / (1 - self.fee_percent)) * self.liquidity * (1 / np.sqrt(price_1)  - 1 / np.sqrt(price_0))
             if fee_x < 0:
                 raise Exception(f"Negative X fees earned: {fee_x}")
         else:
-            fee_y = (y_1 - y_0) * self.fee_percent
+            fee_y = (self.fee_percent / (1 - self.fee_percent)) * self.liquidity * (np.sqrt(price_1)  - np.sqrt(price_0))
             if fee_y < 0:
                 raise Exception(f"Negative Y fees earned: {fee_y}")
-
+           
         self.fees_x += fee_x
         self._fees_x_earned_ += fee_x
 
